@@ -1,3 +1,4 @@
+from subprocess import call
 from pynput import keyboard
 import threading as T
 import sys
@@ -10,7 +11,7 @@ import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BOARD)
 isSent = False
-tones = ['sine', 'piano', 'pluck']
+tones = ['sine', 'zawa', 'square', 'blade', 'tb303', 'mod_saw']
 tone = 'sine'
 i = 0
 PIN_TRIGGER = 23
@@ -71,6 +72,8 @@ def sendNotes():
       global tone
       global isSent
       while True:
+            #call(["amixer",'scontrols'])                  
+            
             try:
                   pitch = min(max(round(dist()), 40), 200)
             except Exception as e:
@@ -82,12 +85,14 @@ def sendNotes():
             if pitch <105:
                   sender.send_message('/synth',tone)
                   sender.send_message('/play_this', pitch)
+                  #if pitch < 110:
+                        #call(["amixer",'sset', 'PCM', str(pitch-10)+ "%"])
                   #if not isSent:
                   
                   #isSent = True
                   sleep(0.05)
                   #count += 1
-     
+
 T.Thread(target=listen).start()
 T.Thread(target=sendNotes).start()
 #sendNotes()
