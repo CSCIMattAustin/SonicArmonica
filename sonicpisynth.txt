@@ -1,0 +1,13 @@
+
+live_loop :listen do
+  #use_sched_ahead_time 0.1
+  message = sync "/osc/play_this"
+  
+  #note = message[:args][0]
+  use_synth_defaults
+  #use_synth :chiplead
+  play message[0]
+  #play message[0]
+  #play message[0]
+  #play message[0]
+end
