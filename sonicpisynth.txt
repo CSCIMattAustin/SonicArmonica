@@ -2,9 +2,20 @@
 live_loop :listen do
   #use_sched_ahead_time 0.1
   message = sync "/osc/play_this"
+  SYNTH = sync "/osc/synth"
   
+  
+  if (SYNTH == ["pluck"])
+    use_synth :pluck
+  end
+  if (SYNTH == ["piano"])
+    use_synth :piano
+  end
+  if (SYNTH == ["sine"])
+    use_synth :sine
+  end
   #note = message[:args][0]
-  use_synth_defaults
+  #use_synth_defaults
   #use_synth :chiplead
   play message[0]
   #play message[0]
